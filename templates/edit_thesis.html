@@ -1,0 +1,136 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Thesis{% endblock %}
+
+{% block content %}
+<div class="row mb-3">
+    <div class="col-12">
+        <a href="{{ url_for('dashboard') }}" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left"></i> Back to Dashboard
+        </a>
+    </div>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card shadow-sm">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">
+                    <i class="bi bi-pencil"></i> Edit Thesis
+                </h4>
+            </div>
+            <div class="card-body">
+                <form method="POST" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label for="title" class="form-label">
+                            Title <span class="text-danger">*</span>
+                        </label>
+                        <input type="text"
+                               class="form-control"
+                               id="title"
+                               name="title"
+                               value="{{ thesis[1] }}"
+                               required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="authors" class="form-label">
+                            Author(s) <span class="text-danger">*</span>
+                        </label>
+                        <input type="text"
+                               class="form-control"
+                               id="authors"
+                               name="authors"
+                               value="{{ thesis[2] }}"
+                               required>
+                        <small class="text-muted">Separate multiple authors with commas</small>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="year" class="form-label">
+                                Year <span class="text-danger">*</span>
+                            </label>
+                            <select class="form-select" id="year" name="year" required>
+                                {% for y in range(2025, 2014, -1) %}
+                                    <option value="{{ y }}" {% if y == thesis[3] %}selected{% endif %}>
+                                        {{ y }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label for="adviser" class="form-label">
+                                Adviser <span class="text-danger">*</span>
+                            </label>
+                            <input type="text"
+                                   class="form-control"
+                                   id="adviser"
+                                   name="adviser"
+                                   value="{{ thesis[4] }}"
+                                   required>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="abstract" class="form-label">
+                            Abstract <span class="text-danger">*</span>
+                        </label>
+                        <textarea class="form-control"
+                                  id="abstract"
+                                  name="abstract"
+                                  rows="8"
+                                  required>{{ thesis[5] }}</textarea>
+                        <small class="text-muted">Provide a comprehensive summary of the thesis</small>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="keywords" class="form-label">
+                            Keywords <span class="text-danger">*</span>
+                        </label>
+                        <input type="text"
+                               class="form-control"
+                               id="keywords"
+                               name="keywords"
+                               value="{{ thesis[6] }}"
+                               required>
+                        <small class="text-muted">Separate keywords with commas</small>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="pdf_file" class="form-label">
+                            PDF File <span class="text-muted">(Optional - leave empty to keep current file)</span>
+                        </label>
+                        {% if thesis[7] %}
+                            <div class="alert alert-info mb-2">
+                                <i class="bi bi-info-circle"></i>
+                                Current file: <strong>{{ thesis[7] }}</strong>
+                                <br>
+                                <small>Upload a new file to replace it, or leave empty to keep the current file.</small>
+                            </div>
+                        {% endif %}
+                        <input type="file"
+                               class="form-control"
+                               id="pdf_file"
+                               name="pdf_file"
+                               accept=".pdf">
+                        <small class="text-muted">Upload a new PDF file (max 16MB) or leave empty to keep existing</small>
+                    </div>
+
+                    <hr>
+
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <a href="{{ url_for('dashboard') }}" class="btn btn-secondary">
+                            <i class="bi bi-x-circle"></i> Cancel
+                        </a>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-check-circle"></i> Update Thesis
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

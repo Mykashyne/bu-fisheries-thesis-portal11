@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+
+{% block title %}{{ thesis[1] }}{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12 mb-3">
+        <a href="{{ url_for('home') }}" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left"></i> Back to Search
+        </a>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-8">
+        <div class="card shadow-sm mb-4">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-start mb-3">
+                    <h2 class="card-title">{{ thesis[1] }}</h2>
+                    <span class="badge bg-primary fs-5">{{ thesis[3] }}</span>
+                </div>
+
+                <div class="mb-3">
+                    <h6 class="text-muted">
+                        <i class="bi bi-person-fill"></i> Author(s)
+                    </h6>
+                    <p class="ms-4">{{ thesis[2] }}</p>
+                </div>
+
+                <div class="mb-3">
+                    <h6 class="text-muted">
+                        <i class="bi bi-mortarboard-fill"></i> Adviser
+                    </h6>
+                    <p class="ms-4">{{ thesis[4] }}</p>
+                </div>
+
+                <div class="mb-3">
+                    <h6 class="text-muted">
+                        <i class="bi bi-file-text-fill"></i> Abstract
+                    </h6>
+                    <p class="ms-4 text-justify">{{ thesis[5] }}</p>
+                </div>
+
+                <div class="mb-3">
+                    <h6 class="text-muted">
+                        <i class="bi bi-tags-fill"></i> Keywords
+                    </h6>
+                    <div class="ms-4">
+                        {% for keyword in thesis[6].split(',') %}
+                            <span class="badge bg-secondary me-1 mb-1">{{ keyword.strip() }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="mb-2">
+                    <small class="text-muted">
+                        <i class="bi bi-calendar"></i> Added: {{ thesis[8] }}
+                    </small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4">
+        <div class="card shadow-sm">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">
+                    <i class="bi bi-download"></i> Download
+                </h5>
+            </div>
+            <div class="card-body">
+                {% if thesis[7] %}
+                    <div class="text-center mb-3">
+                        <i class="bi bi-file-pdf-fill text-danger" style="font-size: 4rem;"></i>
+                    </div>
+                    <a href="{{ url_for('download_file', filename=thesis[7]) }}"
+                       class="btn btn-danger w-100 mb-2">
+                        <i class="bi bi-download"></i> Download PDF
+                    </a>
+                    <p class="text-muted small text-center mb-0">
+                        Click above to download the full thesis document
+                    </p>
+                {% else %}
+                    <div class="alert alert-warning mb-0">
+                        <i class="bi bi-exclamation-triangle"></i>
+                        PDF not available for this thesis.
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="card shadow-sm mt-3">
+            <div class="card-header bg-info text-white">
+                <h5 class="mb-0">
+                    <i class="bi bi-info-circle"></i> Quick Info
+                </h5>
+            </div>
+            <div class="card-body">
+                <ul class="list-unstyled mb-0">
+                    <li class="mb-2">
+                        <strong>Year:</strong> {{ thesis[3] }}
+                    </li>
+                    <li class="mb-2">
+                        <strong>Department:</strong> Fisheries
+                    </li>
+                    <li class="mb-0">
+                        <strong>University:</strong> Bicol University Tabaco
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,128 @@
+{% extends "base.html" %}
+
+{% block title %}Add New Thesis{% endblock %}
+
+{% block content %}
+<div class="row mb-3">
+    <div class="col-12">
+        <a href="{{ url_for('dashboard') }}" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left"></i> Back to Dashboard
+        </a>
+    </div>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card shadow-sm">
+            <div class="card-header bg-success text-white">
+                <h4 class="mb-0">
+                    <i class="bi bi-plus-circle"></i> Add New Thesis
+                </h4>
+            </div>
+            <div class="card-body">
+                <form method="POST" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label for="title" class="form-label">
+                            Title <span class="text-danger">*</span>
+                        </label>
+                        <input type="text"
+                               class="form-control"
+                               id="title"
+                               name="title"
+                               required
+                               placeholder="Enter thesis title">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="authors" class="form-label">
+                            Author(s) <span class="text-danger">*</span>
+                        </label>
+                        <input type="text"
+                               class="form-control"
+                               id="authors"
+                               name="authors"
+                               required
+                               placeholder="E.g., Juan Dela Cruz, Maria Santos">
+                        <small class="text-muted">Separate multiple authors with commas</small>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="year" class="form-label">
+                                Year <span class="text-danger">*</span>
+                            </label>
+                            <select class="form-select" id="year" name="year" required>
+                                <option value="">Select Year</option>
+                                {% for y in range(2025, 2014, -1) %}
+                                    <option value="{{ y }}">{{ y }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label for="adviser" class="form-label">
+                                Adviser <span class="text-danger">*</span>
+                            </label>
+                            <input type="text"
+                                   class="form-control"
+                                   id="adviser"
+                                   name="adviser"
+                                   required
+                                   placeholder="E.g., Dr. Jose Rizal">
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="abstract" class="form-label">
+                            Abstract <span class="text-danger">*</span>
+                        </label>
+                        <textarea class="form-control"
+                                  id="abstract"
+                                  name="abstract"
+                                  rows="8"
+                                  required
+                                  placeholder="Enter the thesis abstract..."></textarea>
+                        <small class="text-muted">Provide a comprehensive summary of the thesis</small>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="keywords" class="form-label">
+                            Keywords <span class="text-danger">*</span>
+                        </label>
+                        <input type="text"
+                               class="form-control"
+                               id="keywords"
+                               name="keywords"
+                               required
+                               placeholder="E.g., fisheries, aquaculture, sustainability">
+                        <small class="text-muted">Separate keywords with commas</small>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="pdf_file" class="form-label">
+                            PDF File <span class="text-muted">(Optional)</span>
+                        </label>
+                        <input type="file"
+                               class="form-control"
+                               id="pdf_file"
+                               name="pdf_file"
+                               accept=".pdf">
+                        <small class="text-muted">Upload the full thesis document (PDF only, max 16MB)</small>
+                    </div>
+
+                    <hr>
+
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <a href="{{ url_for('dashboard') }}" class="btn btn-secondary">
+                            <i class="bi bi-x-circle"></i> Cancel
+                        </a>
+                        <button type="submit" class="btn btn-success">
+                            <i class="bi bi-check-circle"></i> Add Thesis
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

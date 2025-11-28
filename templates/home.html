@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h4 class="card-title mb-3">
+                    <i class="bi bi-search"></i> Search Thesis Collection (2015-2025)
+                </h4>
+                <form method="GET" action="{{ url_for('home') }}" class="row g-3">
+                    <div class="col-md-8">
+                        <input type="text"
+                               class="form-control"
+                               name="search"
+                               placeholder="Search by title, author, keyword, or abstract..."
+                               value="{{ search_query }}">
+                    </div>
+                    <div class="col-md-2">
+                        <select class="form-select" name="year">
+                            <option value="">All Years</option>
+                            {% for year in range(2025, 2014, -1) %}
+                                <option value="{{ year }}" {% if year_filter == year|string %}selected{% endif %}>
+                                    {{ year }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <button type="submit" class="btn btn-primary w-100">
+                            <i class="bi bi-search"></i> Search
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mb-3">
+    <div class="col-12">
+        <h5 class="text-muted">
+            {% if search_query or year_filter %}
+                Search Results: {{ theses|length }} thesis(es) found
+            {% else %}
+                All Theses: {{ theses|length }} thesis(es) available
+            {% endif %}
+        </h5>
+    </div>
+</div>
+
+{% if theses %}
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        {% for thesis in theses %}
+        <div class="col">
+            <div class="card thesis-card h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <span class="badge bg-primary">{{ thesis[3] }}</span>
+                        {% if thesis[7] %}
+                            <i class="bi bi-file-pdf-fill text-danger" title="PDF Available"></i>
+                        {% endif %}
+                    </div>
+
+                    <h5 class="card-title">{{ thesis[1] }}</h5>
+
+                    <p class="card-text text-muted small mb-2">
+                        <i class="bi bi-person"></i> {{ thesis[2] }}
+                    </p>
+
+                    <p class="card-text text-muted small mb-2">
+                        <i class="bi bi-mortarboard"></i> Adviser: {{ thesis[4] }}
+                    </p>
+
+                    <p class="card-text small">
+                        {{ thesis[5][:150] }}{% if thesis[5]|length > 150 %}...{% endif %}
+                    </p>
+
+                    <div class="mb-2">
+                        {% for keyword in thesis[6].split(',') %}
+                            <span class="badge bg-secondary keyword-badge">{{ keyword.strip() }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="card-footer bg-transparent">
+                    <a href="{{ url_for('view_thesis', thesis_id=thesis[0]) }}" class="btn btn-outline-primary btn-sm w-100">
+                        <i class="bi bi-eye"></i> View Details
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="alert alert-info text-center" role="alert">
+        <i class="bi bi-info-circle me-2"></i>
+        No theses found. {% if search_query or year_filter %}Try adjusting your search criteria.{% else %}The database is empty.{% endif %}
+    </div>
+{% endif %}
+{% endblock %}
